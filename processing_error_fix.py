@@ -10,13 +10,13 @@ def processing_xml(file: str):
     news_text_list += item.find('description').text.split()
   for word in news_text_list:
     if len(word) > 6:
-      words_list.append(word)
-  words_list = sorted(list(set(words_list)),
-                        key=lambda x: news_text_list.count(x),
+      words_list.append(word.lower())
+  words_set = sorted(list(set(words_list)),
+                        key=lambda x: words_list.count(x),
                         reverse=True)
-  for count, word in enumerate(words_list[0:10], 1):
+  for count, word in enumerate(words_set[0:10], 1):
     print(f'{count}. Слово «{word}» найдено '
-          f'{news_text_list.count(word)} раз')
+          f'{words_list.count(word)} раз')
 
 
 import json
@@ -31,8 +31,10 @@ def processing_json(file: str):
     for news_text in descriptions:
       for word in news_text:
         if len(word) > 6:
-          words.append(word)
-    words_set = sorted(list(set(words)), key=lambda x: words.count(x), reverse=True)
+          words.append(word.lower())
+    words_set = sorted(list(set(words)),
+                       key=lambda x: words.count(x),
+                       reverse=True)
     for count, word in enumerate(words_set[0:10], 1):
       print(f'{count}. Слово «{word}» найдено '
             f'{words.count(word)} раз')
